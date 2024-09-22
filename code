@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <style>
+        /* Add some basic styling to our game */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .game-board {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+
+        .cell {
+            background-color: #eee;
+            padding: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe Game</h1>
+    <div class="game-board">
+        <!-- We'll add the game cells here -->
+    </div>
+    <script>
+        // Get the game board element
+        const gameBoard = document.querySelector('.game-board');
+
+        // Create an array to store the game state
+        let gameState = Array(9).fill(null);
+        let currentPlayer = 'X'; // Initialize the current player to 'X'
+
+        // Function to create game cells
+        function createGameCells() {
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.addEventListener('click', handleCellClick);
+                gameBoard.appendChild(cell);
+            }
+        }
+
+        // Function to handle cell clicks
+        function handleCellClick(event) {
+            // Get the cell that was clicked
+            const cell = event.target;
+            // Get the index of the cell
+            const index = Array.prototype.indexOf.call(gameBoard.children, cell);
+            // Check if the cell is empty
+            if (gameState[index] === null) {
+                // Update the game state
+                gameState[index] = currentPlayer;
+                // Update the cell text
+                cell.textContent = currentPlayer;
+                // Toggle the current player
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                // Check for a win
+                checkForWin();
+            }
+        }
+
+        // Function to check for a win
+        function checkForWin() {
+            // Check rows
+            for (let i = 0; i < 3; i++) {
+                if (gameState[i] === gameState[i + 3] && gameState[i] === gameState[i + 6]) {
+                    alert(`Player ${gameState[i]} wins!`);
+                    return;
+                }
+            }
+            // Check columns
+            for (let i = 0; i < 3; i++) {
+                if (gameState[i] === gameState[i + 1] && gameState[i] === gameState[i + 2]) {
+                    alert(`Player ${gameState[i]} wins!`);
+                    return;
+                }
+            }
+            // Check diagonals
+            if (gameState[0] === gameState[4] && gameState[0] === gameState[8]) {
+                alert(`Player ${gameState[0]} wins!`);
+                return;
+            }
+            if (gameState[2] === gameState[4] && gameState[2] === gameState[6]) {
+                alert(`Player ${gameState[2]} wins!`);
+                return;
+            }
+        }
+
+        // Create the game cells
+        createGameCells();
+    </script>
+</body>
+</html>
